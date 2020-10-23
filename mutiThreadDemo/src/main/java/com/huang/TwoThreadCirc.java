@@ -5,6 +5,25 @@ package com.huang;
  * synchronized  +  wait() / notifyAll()
  * @author :huangao
  */
+class Resource{
+    private int flag = 0;
+    public synchronized void upFlag() throws InterruptedException {
+        while(flag!=0){
+            this.wait();
+        }
+        System.out.println("t1开始执行。。"+Thread.currentThread().getName()+":"+flag);
+        flag += 1;
+        notifyAll();
+    }
+    public synchronized void downFlag() throws InterruptedException {
+        while(flag!=1){
+            this.wait();
+        }
+        System.out.println("t2开始执行。。"+Thread.currentThread().getName()+":"+flag);
+        flag -= 1;
+        notifyAll();
+    }
+}
 public class TwoThreadCirc {
 
     public static void main(String[] args) {
@@ -29,25 +48,4 @@ public class TwoThreadCirc {
             }
         },"t2线程").start();
     }
-
-   static class Resource{
-        int flag = 0;
-        public synchronized void upFlag() throws InterruptedException {
-            while(flag!=0){
-               this.wait();
-            }
-            System.out.println("t1开始执行。。"+Thread.currentThread().getName()+":"+flag);
-            flag += 1;
-            notifyAll();
-        }
-        public synchronized void downFlag() throws InterruptedException {
-            while(flag!=1){
-                this.wait();
-            }
-            System.out.println("t2开始执行。。"+Thread.currentThread().getName()+":"+flag);
-            flag -= 1;
-            notifyAll();
-        }
-    }
-
 }
