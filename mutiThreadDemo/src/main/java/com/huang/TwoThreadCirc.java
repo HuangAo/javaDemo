@@ -7,7 +7,7 @@ package com.huang;
  */
 class Resource{
     private int flag = 0;
-    public synchronized void upFlag() throws InterruptedException {
+    public synchronized void t1do() throws InterruptedException {
         while(flag!=0){
             this.wait();
         }
@@ -15,7 +15,7 @@ class Resource{
         flag += 1;
         notifyAll();
     }
-    public synchronized void downFlag() throws InterruptedException {
+    public synchronized void t2do() throws InterruptedException {
         while(flag!=1){
             this.wait();
         }
@@ -31,7 +31,7 @@ public class TwoThreadCirc {
         new Thread(()->{
             for(int i=0;i<10;i++){
                 try {
-                    resource.upFlag();
+                    resource.t1do();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -41,7 +41,7 @@ public class TwoThreadCirc {
          new Thread(()->{
             for(int i=0;i<10;i++){
                 try {
-                    resource.downFlag();
+                    resource.t2do();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

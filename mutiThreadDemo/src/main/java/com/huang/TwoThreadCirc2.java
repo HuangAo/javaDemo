@@ -13,7 +13,7 @@ class Resource2{
     private Lock lock = new ReentrantLock();
     private Condition condition = lock.newCondition();
 
-    public void upFlag() throws InterruptedException {
+    public void t1do() throws InterruptedException {
         lock.lock();
         try {
             while(flag!=0){
@@ -28,7 +28,7 @@ class Resource2{
             lock.unlock();
         }
     }
-    public void downFlag() throws InterruptedException {
+    public void t2do() throws InterruptedException {
         lock.lock();
         try {
             while(flag!=1){
@@ -51,7 +51,7 @@ public class TwoThreadCirc2 {
         new Thread(()->{
             for(int i=0;i<10;i++){
                 try {
-                    resource.upFlag();
+                    resource.t1do();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -61,7 +61,7 @@ public class TwoThreadCirc2 {
         new Thread(()->{
             for(int i=0;i<10;i++){
                 try {
-                    resource.downFlag();
+                    resource.t2do();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
