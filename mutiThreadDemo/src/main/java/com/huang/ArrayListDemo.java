@@ -21,7 +21,7 @@ public class ArrayListDemo {
         //List list = new Vector();
         //List list = Collections.synchronizedList(new ArrayList<>());
           List list = new CopyOnWriteArrayList();
-        for(int i=0; i<=30;i++){
+        for(int i=0; i<30;i++){
             new Thread(()->{
                list.add(UUID.randomUUID().toString().substring(0,3));
                 System.out.println(list);
